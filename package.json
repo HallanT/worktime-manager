@@ -1,12 +1,9 @@
 {
-  "name": "worktime-manager",
-  "version": "0.1.0",
-  "private": true,
-  "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "lint": "vue-cli-service lint"
-  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
   "dependencies": {
     "core-js": "^3.6.5",
     "vue": "^3.0.0"
@@ -22,7 +19,6 @@
     "execa": "^5.0.0"
   },
   "eslintConfig": {
-    "root": true,
     "env": {
       "node": true
     },
@@ -33,11 +29,16 @@
     "parserOptions": {
       "parser": "babel-eslint"
     },
+    "root": true,
     "rules": {}
   },
-  "browserslist": [
-    "> 1%",
-    "last 2 versions",
-    "not dead"
-  ]
+  "name": "worktime-manager",
+  "private": true,
+  "scripts": {
+    "build": "vue-cli-service build",
+    "deploy": "node scripts/gh-pages-deploy.js",
+    "lint": "vue-cli-service lint", 
+    "serve": "vue-cli-service serve"
+  },
+  "version": "0.1.0"
 }
