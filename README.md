@@ -1,4 +1,4 @@
-# worktime-manager
+# Worktime Calculator
 
 ## Project setup
 ```
