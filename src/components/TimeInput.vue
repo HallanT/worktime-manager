@@ -1,7 +1,7 @@
 
 <template>
   <div>
-    <label :for="id" tabindex="0">{{ label }}</label>
+    <label :for="id">{{ label }} {{ defaultTime && `(${defaultTime})`}}</label>
     <input
       :id="id"
       :name="id"
@@ -37,11 +37,16 @@ export default {
     };
   },
   emits: ["update:hour", "update:minute"],
+  methods: {
+    
+  },
   props: {
     id: String,
     value: null,
     label: String,
+    defaultTime: String, 
   },
+    
 };
 </script>
 
@@ -58,5 +63,6 @@ input {
   color: var(--on-surface-color);
   padding: 0.8rem;
   width: max-content;
+  max-width: 24vw;
 }
 </style>

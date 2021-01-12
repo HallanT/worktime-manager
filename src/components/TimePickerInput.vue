@@ -1,13 +1,15 @@
 <template>
   <div>
-    <label :for="id" tabindex="0">{{ label }}</label>
+    <label :for="id">{{ label }}</label>
     <input
       :id="id"
       :name="id"
       type="time"
       v-bind="$attrs"
       @input="handleTimeInput"
+      required
     />
+    <small>* Required</small>
   </div>
 </template>
 

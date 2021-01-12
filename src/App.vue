@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <h1 tabindex="0">WORKTIME CALCULATOR</h1>
-    <form>
+    <form v-on:submit.prevent="calculateWorkDay">
       <TimePickerInput
         id="startTime"
         label="When did you start your workday?"
@@ -13,6 +13,7 @@
         label="How many hours are you working?"
         v-model:hour="totalTimeHour"
         v-model:minute="totalTimeMinute"
+        defaultTime="Default: 7h 30min"
       />
       <TimeInput
         id="awayTime"
@@ -20,9 +21,9 @@
         v-model:hour="awayTimeHour"
         v-model:minute="awayTimeMinute"
       />
-      <button type="button" @click="calculateWorkDay">Calculate</button>
+      <button type="submit">Calculate</button>
     </form>
-    <div id="result-wrapper" tabindex="0">
+    <div id="result-wrapper">
       <h2>RESULT:</h2>
       <p>{{ result }}</p>
     </div>
@@ -51,10 +52,29 @@ export default {
   },
   methods: {
     updateTime(time, key) {
-      console.log("TimeObj: ", time);
       this[key] = time;
     },
+    validateForm() {
+      if (((this.totalTimeMinute === null) && (this.totalTimeHour === null)) || (!this.totalTimeHour && !this.totalTimeMinute)) {
+        this.totalTimeHour = 7;
+        this.totalTimeMinute = 30;
+      } else if (!this.totalTimeHour || ((this.totalTimeHour === null) && (this.totalTimeMinute !== null))) {
+        this.totalTimeHour = 0;
+      } else if (!this.totalTimeMinute || ((this.totalTimeMinute === null) && (this.totalTimeHour !== null))) {
+        this.totalTimeMinute = 0;
+      }
+
+      if (this.awayTimeHour === null) {
+        this.awayTimeHour = 0;
+      }
+
+      if (this.awayTimeMinute === null) {
+        this.awayTimeMinute = 0;
+      }
+    },
     calculateWorkDay() {
+      this.validateForm();
+      
       let totalMinutes =
         this.startTime.minute +
         parseInt(this.totalTimeMinute) +
@@ -71,7 +91,6 @@ export default {
 
       const daysToCarry = Math.floor(totalHours / 24);
       totalHours = totalHours % 24;
-      console.log("tH", totalHours);
 
       if (totalHours < 10) {
         totalHours = `0${totalHours}`;
@@ -82,11 +101,11 @@ export default {
       }
 
       if (daysToCarry === 1) {
-        this.result = `Your work day ends in ${daysToCarry} day @ ${totalHours}:${totalMinutes}`;
+        this.result = `Your workday ends in ${daysToCarry} day @ ${totalHours}:${totalMinutes}`;
       } else if (daysToCarry < 1) {
-        this.result = `Your work day ends @ ${totalHours}:${totalMinutes}. Yippee ki yay!`;
+        this.result = `Your workday ends @ ${totalHours}:${totalMinutes}. Yippee ki yay!`;
       } else {
-        this.result = `Your work day ends in ${daysToCarry} days @ ${totalHours}:${totalMinutes}. Yikes..`;
+        this.result = `Your workday ends in ${daysToCarry} days @ ${totalHours}:${totalMinutes}.`;
       }
     },
   },
@@ -95,5 +114,4 @@ export default {
 
 <style>
 @import './styles/style.css';
-
 </style>
